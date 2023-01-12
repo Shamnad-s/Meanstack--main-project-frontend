@@ -35,6 +35,7 @@ import { CategoriesListComponent } from './categories/categories-list/categories
 import { CategoriesFormComponent } from './categories/categories-form/categories-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserListComponent } from './ussers/user-list/user-list.component';
+import { UserFormComponent } from './ussers/user-form/user-form.component';
 
 const UX_MODULE = [
     CardModule,
@@ -75,6 +76,18 @@ const routes: Routes = [
             {
                 path: 'categories/form/:id',
                 component: CategoriesFormComponent
+            },
+            {
+                path: 'users',
+                component: UserListComponent
+            },
+            {
+                path: 'users/form',
+                component: UserFormComponent
+            },
+            {
+                path: 'users/form/:id',
+                component: UserFormComponent
             }
         ]
     }
@@ -89,7 +102,8 @@ const routes: Routes = [
         DashboardComponent,
         CategoriesListComponent,
         CategoriesFormComponent,
-        UserListComponent
+        UserListComponent,
+        UserFormComponent
     ],
     imports: [
         PasswordModule,

@@ -17,7 +17,8 @@
         "paths": {
             "@angular-main-project/event": ["libs/event/src/index.ts"],
             "@angular-main-project/ui": ["libs/ui/src/index.ts"],
-            "@angular-main-project/users": ["libs/users/src/index.ts"]
+            "@angular-main-project/users": ["libs/users/src/index.ts"],
+            "@env/*": ["environments/*"]
         }
     },
     "exclude": ["node_modules", "tmp"]
