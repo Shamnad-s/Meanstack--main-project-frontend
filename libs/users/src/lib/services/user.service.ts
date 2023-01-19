@@ -1,9 +1,10 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from '@env/environment';
+import { Observable, throwError } from 'rxjs';
+import { environment } from 'environments/environment';
 import { User } from '../models/user';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 @Injectable({
     providedIn: 'root'
 })
@@ -31,5 +32,15 @@ export class UsersService {
     getUsersCount(): Observable<number> {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return this.http.get<number>(`${this.apiURLUsers}/get/count`).pipe(map((objectValue: any) => objectValue.userCount));
+    }
+    checkEmailExists(email: string) {
+        return this.http.get(`http://localhost:3000/api/v1/users?email=${email}`).pipe(
+            catchError((error) => {
+                if (error.status === 409) {
+                    return throwError(new Error('Email already exists'));
+                }
+                return throwError(new Error('An error occured'));
+            })
+        );
     }
 }

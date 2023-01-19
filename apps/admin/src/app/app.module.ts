@@ -2,21 +2,21 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { PasswordModule } from 'primeng/password';
 import { AppComponent } from './app.component';
-import { NxWelcomeComponent } from './nx-welcome.component';
+
 import { RouterModule, Routes } from '@angular/router';
 import { appRoutes } from './app.routes';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AccordionModule } from 'primeng/accordion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ShellComponent } from './shared/shell/shell.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { CardModule } from 'primeng/card';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
-
+import { AuthGuard, JwtInterceptor, UsersModule } from '@angular-main-project/users';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 
@@ -36,6 +36,7 @@ import { CategoriesFormComponent } from './categories/categories-form/categories
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserListComponent } from './ussers/user-list/user-list.component';
 import { UserFormComponent } from './ussers/user-form/user-form.component';
+import { CategoriesService } from '@angular-main-project/event';
 
 const UX_MODULE = [
     CardModule,
@@ -60,6 +61,7 @@ const routes: Routes = [
     {
         path: '',
         component: ShellComponent,
+        canActivate: [AuthGuard],
         children: [
             {
                 path: 'dashboard',
@@ -96,7 +98,7 @@ const routes: Routes = [
 @NgModule({
     declarations: [
         AppComponent,
-        NxWelcomeComponent,
+
         ShellComponent,
         SidebarComponent,
         DashboardComponent,
@@ -115,9 +117,10 @@ const routes: Routes = [
         ...UX_MODULE,
         HttpClientModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        UsersModule
     ],
-    providers: [ConfirmationService],
+    providers: [MessageService, ConfirmationService, CategoriesService, { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

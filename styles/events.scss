@@ -8,6 +8,8 @@
 @import '~primeng/resources/themes/saga-blue/theme.css';
 @import '~primeng/resources/primeng.min.css';
 @import '/node_modules/primeflex/primeflex.css';
+@import '~primeflex/primeflex.css';
+
 @import './base/configuration.scss';
 
 //Shared
@@ -17,3 +19,6 @@
 //Pages
 @import './apps/shop/pages/home-page.scss';
 @import './apps/shop/pages/event-list-pages.scss';
+
+// libs
+@import './libs/users/users.scss';
