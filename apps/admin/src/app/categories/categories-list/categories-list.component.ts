@@ -2,6 +2,7 @@ import { CategoriesService, Category } from '@angular-main-project/event';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { Subject, takeUntil } from 'rxjs';
 // import { CategoryServices,Category } from '@angular/core';
 
 @Component({
@@ -11,7 +12,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 })
 export class CategoriesListComponent implements OnInit {
     categories: Category[] = [];
-
+    endsubs$: Subject<any> = new Subject();
     constructor(
         private categoriesService: CategoriesService,
         private messageService: MessageService,
@@ -22,7 +23,12 @@ export class CategoriesListComponent implements OnInit {
     ngOnInit(): void {
         this._getCategories();
     }
+    ngOnDestroy() {
+        console.log('destroyed');
 
+        this.endsubs$.next(true);
+        this.endsubs$.complete();
+    }
     deleteCategory(categoryId: string) {
         this.confirmationService.confirm({
             message: 'Do you want to Delete this Category?',
@@ -55,8 +61,11 @@ export class CategoriesListComponent implements OnInit {
     }
 
     private _getCategories() {
-        this.categoriesService.getCategories().subscribe((cats) => {
-            this.categories = cats;
-        });
+        this.categoriesService
+            .getCategories()
+            .pipe(takeUntil(this.endsubs$))
+            .subscribe((cats) => {
+                this.categories = cats;
+            });
     }
 }

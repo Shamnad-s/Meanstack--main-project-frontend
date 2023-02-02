@@ -90,7 +90,7 @@
                                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                                         <p-button label="Submit" styleClass="full-btn" (onClick)="onSubmit()"></p-button>
                                     </div>
-                                    <div class="p-col-12" *ngIf="authError">
+                                    <div class="p-col-12" *ngIf="isSubmitted && authError">
                                         <small class="p-error">{{ secondauthMessage }}</small>
                                     </div>
                                     <div class="p-col-12" *ngIf="isSubmitted && authSuccess">

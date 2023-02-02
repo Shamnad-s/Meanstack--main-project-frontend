@@ -14,6 +14,7 @@
                 "main": "apps/admin/src/main.ts",
                 "polyfills": ["zone.js"],
                 "tsConfig": "apps/admin/tsconfig.app.json",
+
                 "inlineStyleLanguage": "scss",
                 "assets": ["apps/admin/src/favicon.ico", "apps/admin/src/assets"],
                 "styles": ["apps/admin/src/styles.scss"],
@@ -54,6 +55,14 @@
                 },
                 "development": {
                     "browserTarget": "admin:build:development"
+                },
+                "staging": {
+                    "fileReplacements": [
+                        {
+                            "replace": "src/environments/environment.ts",
+                            "with": "src/environments/environment.staging.ts"
+                        }
+                    ]
                 }
             },
             "defaultConfiguration": "development"

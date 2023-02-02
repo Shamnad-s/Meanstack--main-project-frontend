@@ -89,6 +89,9 @@
                                         placeholder="Select a Country"
                                     ></p-dropdown>
                                 </div>
+                                <div class="p-col-12" *ngIf="isSubmitted && authError">
+                                    <small class="p-error">{{ secondauthMessage }}</small>
+                                </div>
                             </div>
                         </div>
                     </div>

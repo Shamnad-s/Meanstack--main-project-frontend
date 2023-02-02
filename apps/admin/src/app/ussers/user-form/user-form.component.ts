@@ -3,8 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService, User } from '@angular-main-project/users';
 import { MessageService } from 'primeng/api';
-import { timer } from 'rxjs';
+import { map, Observable, timer } from 'rxjs';
 import { Location } from '@angular/common';
+
 @Component({
     selector: 'angular-main-project-user-form',
     templateUrl: './user-form.component.html',
@@ -16,6 +17,8 @@ export class UserFormComponent implements OnInit {
     editmode = false;
     currentUserId: string;
     countries = [];
+    secondauthMessage: string;
+    authError = false;
     constructor(
         private messageService: MessageService,
         private formBuilder: FormBuilder,
@@ -118,14 +121,21 @@ export class UserFormComponent implements OnInit {
             email: this.userForm.email.value,
             phone: this.userForm.phone.value,
             isAdmin: this.userForm.isAdmin.value,
-
+            password: this.userForm.password.value,
             city: this.userForm.city.value,
             country: this.userForm.country.value
         };
         if (this.editmode) {
             this._updateUser(user);
         } else {
-            this._addUser(user);
+            this.checkEmailTaken(this.userForm.email.value).subscribe((emailExist) => {
+                if (!emailExist) {
+                    this._addUser(user);
+                } else {
+                    this.authError = true;
+                    this.secondauthMessage = 'email already exist';
+                }
+            });
         }
     }
 
@@ -135,5 +145,16 @@ export class UserFormComponent implements OnInit {
 
     get userForm() {
         return this.form.controls;
+    }
+    checkEmailTaken(email: string): Observable<boolean> {
+        return this.usersService.checkEmailTaken(email).pipe(
+            map((data) => {
+                if (data === true) {
+                    return true;
+                } else {
+                    return false;
+                }
+            })
+        );
     }
 }

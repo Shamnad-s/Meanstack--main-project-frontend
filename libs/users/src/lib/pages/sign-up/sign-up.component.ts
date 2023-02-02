@@ -30,40 +30,6 @@ export class SignUpComponent {
         private localstorageService: LocalstoragesService
     ) {}
 
-    validatePassword(control: AbstractControl): Observable<{ [key: string]: any } | null> {
-        return of('password').pipe(
-            map((password) => (control.value === password ? { passwordTaken: true } : null)),
-            delay(2000)
-        );
-    }
-    validatePhone(control: AbstractControl): Observable<{ [key: string]: any } | null> {
-        return of('1234567890').pipe(
-            map((phone) => (control.value === phone ? { phoneTaken: true } : null)),
-            delay(2000)
-        );
-    }
-
-    correctPassword(control: AbstractControl): Observable<{ [key: string]: any } | null> {
-        return from(
-            new Promise((resolve) => {
-                setTimeout(() => {
-                    if (!control.value.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)) {
-                        resolve({ invalidPassword: true });
-                    } else {
-                        resolve(null);
-                    }
-                }, 2000);
-            })
-        );
-    }
-
-    correctPhonenumber(control: AbstractControl): Observable<{ [key: string]: any } | null> {
-        return of(control.value).pipe(
-            map((phone) => (!phone.match(/^\d{10}$/) ? { invalidPhone: true } : null)),
-            delay(2000)
-        );
-    }
-
     // eslint-disable-next-line @angular-eslint/use-lifecycle-interface
     ngOnInit(): void {
         this._initSignupForm();
@@ -73,7 +39,7 @@ export class SignUpComponent {
         this.signupFormGroup = this.formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
             name: ['', Validators.required],
-            password: ['', Validators.required, this.correctPassword],
+            password: ['', Validators.required],
             phone: ['', [Validators.required]],
             city: ['', Validators.required],
             country: ['', [Validators.required]]
@@ -86,25 +52,24 @@ export class SignUpComponent {
         this.succesAuthMessage = '';
         this.secondauthMessage = '';
         if (this.signupFormGroup.invalid) return;
-        const user: User = {
-            id: this.currentUserId,
-            email: this.signupForm.email.value,
-            name: this.signupForm.name.value,
-            password: this.signupForm.password.value,
-            phone: this.signupForm.phone.value,
-            city: this.signupForm.city.value,
-            country: this.signupForm.country.value
-        };
-        // this._createUser(user);
-        // this._checkEmailExist(this.signupForm.email.value);
-        this.userservices.checkEmailExists(user.email).subscribe((response) => {
-            if (response === true) {
-                this.authError = true;
-                this.secondauthMessage = 'Email already exists';
-            } else {
+        this.checkEmailTaken(this.signupForm.email.value).subscribe((emailExist) => {
+            console.log(emailExist);
+            if (!emailExist) {
+                const user: User = {
+                    id: this.currentUserId,
+                    email: this.signupForm.email.value,
+                    name: this.signupForm.name.value,
+                    password: this.signupForm.password.value,
+                    phone: this.signupForm.phone.value,
+                    city: this.signupForm.city.value,
+                    country: this.signupForm.country.value
+                };
                 this._createUser(user);
                 this.authSuccess = true;
                 this.succesAuthMessage = 'User created successfully';
+            } else {
+                this.authError = true;
+                this.secondauthMessage = 'email already exist';
             }
         });
     }
@@ -113,5 +78,16 @@ export class SignUpComponent {
     }
     private _createUser(user: User) {
         this.userservices.createUser(user).subscribe();
+    }
+    checkEmailTaken(email: string): Observable<boolean> {
+        return this.userservices.checkEmailTaken(email).pipe(
+            map((data) => {
+                if (data === true) {
+                    return true;
+                } else {
+                    return false;
+                }
+            })
+        );
     }
 }

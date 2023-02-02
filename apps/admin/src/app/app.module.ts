@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { PasswordModule } from 'primeng/password';
 import { AppComponent } from './app.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { ToastrModule } from 'ngx-toastr';
 
-import { RouterModule, Routes } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AccordionModule } from 'primeng/accordion';
@@ -19,7 +21,7 @@ import { TableModule } from 'primeng/table';
 import { AuthGuard, JwtInterceptor, UsersModule } from '@angular-main-project/users';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
-
+import { catchError, retry } from 'rxjs/operators';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ColorPickerModule } from 'primeng/colorpicker';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -37,6 +39,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserListComponent } from './ussers/user-list/user-list.component';
 import { UserFormComponent } from './ussers/user-form/user-form.component';
 import { CategoriesService } from '@angular-main-project/event';
+import { EventsFormComponent } from './events/events-form/events-form.component';
+import { EventsListComponent } from './events/events-list/events-list.component';
+import { AppRoutingModule } from './app-routing.module';
 
 const UX_MODULE = [
     CardModule,
@@ -57,44 +62,6 @@ const UX_MODULE = [
     FieldsetModule
 ];
 
-const routes: Routes = [
-    {
-        path: '',
-        component: ShellComponent,
-        canActivate: [AuthGuard],
-        children: [
-            {
-                path: 'dashboard',
-                component: DashboardComponent
-            },
-            {
-                path: 'categories',
-                component: CategoriesListComponent
-            },
-            {
-                path: 'categories/form',
-                component: CategoriesFormComponent
-            },
-            {
-                path: 'categories/form/:id',
-                component: CategoriesFormComponent
-            },
-            {
-                path: 'users',
-                component: UserListComponent
-            },
-            {
-                path: 'users/form',
-                component: UserFormComponent
-            },
-            {
-                path: 'users/form/:id',
-                component: UserFormComponent
-            }
-        ]
-    }
-];
-
 @NgModule({
     declarations: [
         AppComponent,
@@ -105,22 +72,29 @@ const routes: Routes = [
         CategoriesListComponent,
         CategoriesFormComponent,
         UserListComponent,
-        UserFormComponent
+        UserFormComponent,
+        EventsFormComponent,
+        EventsListComponent
     ],
     imports: [
         PasswordModule,
         BrowserModule,
-        RouterModule.forRoot(routes, { initialNavigation: 'enabledBlocking' }),
+
         DropdownModule,
         AccordionModule,
         BrowserAnimationsModule,
         ...UX_MODULE,
         HttpClientModule,
         FormsModule,
+        AppRoutingModule,
         ReactiveFormsModule,
-        UsersModule
+        UsersModule,
+        ToastrModule.forRoot()
     ],
     providers: [MessageService, ConfirmationService, CategoriesService, { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
     bootstrap: [AppComponent]
 })
 export class AppModule {}
+// , "node_modules/quill/dist/quill.core.css", "node_modules/quill/dist/quill.snow.css"
+// "node_modules/quill/dist/quill.js"
+// "allowedCommonJsDependencies": ["rxjs-compat"],

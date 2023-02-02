@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CategoriesService, Category } from '@angular-main-project/event';
 import { MessageService } from 'primeng/api';
-import { timer } from 'rxjs';
+import { map, Observable, Subject, timer } from 'rxjs';
 import { Location } from '@angular/common';
 
 @Component({
@@ -16,7 +16,9 @@ export class CategoriesFormComponent implements OnInit {
     isSubmitted = false;
     editmode = false;
     currentCategoryId: string;
-
+    authError = false;
+    authMessage = '';
+    endsubs$: Subject<any> = new Subject();
     constructor(
         private messageService: MessageService,
         private formBuilder: FormBuilder,
@@ -36,6 +38,7 @@ export class CategoriesFormComponent implements OnInit {
     }
 
     onSubmit() {
+        this.authError = false;
         this.isSubmitted = true;
         if (this.form.invalid) {
             return;
@@ -49,7 +52,14 @@ export class CategoriesFormComponent implements OnInit {
         if (this.editmode) {
             this._updateCategory(category);
         } else {
-            this._addCategory(category);
+            this.checkCategoryTaken(this.categoryForm.name.value).subscribe((categoryExist) => {
+                if (!categoryExist) {
+                    this._addCategory(category);
+                } else {
+                    this.authError = true;
+                    this.authMessage = 'category already exist';
+                }
+            });
         }
     }
 
@@ -121,5 +131,17 @@ export class CategoriesFormComponent implements OnInit {
 
     get categoryForm() {
         return this.form.controls;
+    }
+
+    checkCategoryTaken(name: string): Observable<boolean> {
+        return this.categoriesService.checkCategoryTaken(name).pipe(
+            map((data) => {
+                if (data === true) {
+                    return true;
+                } else {
+                    return false;
+                }
+            })
+        );
     }
 }

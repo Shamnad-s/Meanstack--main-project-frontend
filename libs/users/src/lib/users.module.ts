@@ -7,6 +7,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { ToastrModule } from 'ngx-toastr';
+
 const routes: Routes = [
     {
         path: 'login',
@@ -18,7 +21,7 @@ const routes: Routes = [
     }
 ];
 @NgModule({
-    imports: [CommonModule, RouterModule.forChild(routes), InputTextModule, ButtonModule, FormsModule, ReactiveFormsModule],
+    imports: [CommonModule, ToastrModule.forRoot(), RouterModule.forChild(routes), InputTextModule, ButtonModule, FormsModule, ReactiveFormsModule],
     declarations: [LoginComponent, SignUpComponent]
 })
 export class UsersModule {}
