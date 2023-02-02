@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 import { Category } from '../model/category';
 import { environment } from 'environments/environment';
 @Injectable({
@@ -24,5 +24,16 @@ export class CategoriesService {
     }
     deleteCategory(categoryId: string): Observable<Category> {
         return this.http.delete<Category>(`${this.apiURLCategories}/${categoryId}`);
+    }
+    checkCategoryTaken(name: string): Observable<boolean> {
+        return this.http.post<boolean>(`${this.apiURLCategories}/check-category`, { name }).pipe(
+            catchError((error) => {
+                if (error.error && error.error.categoryExist) {
+                    return of(true);
+                } else {
+                    return of(false);
+                }
+            })
+        );
     }
 }
