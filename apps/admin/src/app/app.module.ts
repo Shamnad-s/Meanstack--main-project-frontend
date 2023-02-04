@@ -28,7 +28,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { EditorModule } from 'primeng/editor';
+
 import { TagModule } from 'primeng/tag';
 import { InputMaskModule } from 'primeng/inputmask';
 
@@ -56,7 +56,7 @@ const UX_MODULE = [
     DropdownModule,
     InputTextareaModule,
     InputSwitchModule,
-    EditorModule,
+
     TagModule,
     InputMaskModule,
     FieldsetModule

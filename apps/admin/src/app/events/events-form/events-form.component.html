@@ -71,10 +71,10 @@
                             <textarea pInputTextarea formControlName="description" [rows]="7" [cols]="30"></textarea>
                             <small *ngIf="eventForm.description.invalid && isSubmitted" class="p-error">Description is required</small>
                         </div>
-                        <div class="p-field p-col-12">
+                        <!-- <div class="p-field p-col-12">
                             <label for="richDescription">Product Details</label><br />
                             <p-editor formControlName="richDescription" [style]="{ height: '320px' }"></p-editor>
-                        </div>
+                        </div> -->
                         <div class="p-field p-col-12">
                             <label for="name">Main Image</label>
                             <input type="file" class="p-inputtext" accept="image/*" (change)="onImageUpload($event)" />
