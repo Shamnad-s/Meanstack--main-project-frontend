@@ -21,8 +21,8 @@ export class EventsService {
     getEvent(eventId: string): Observable<Event> {
         return this.http.get<Event>(`${this.apiURLevents}/${eventId}`);
     }
-    updateEvent(eventData: FormData, eventtid: string): Observable<Event> {
-        return this.http.put<Event>(`${this.apiURLevents}/${eventtid}`, eventData);
+    updateEvent(eventData: FormData, eventid: string): Observable<Event> {
+        return this.http.put<Event>(`${this.apiURLevents}/${eventid}`, eventData);
     }
     deleteEvent(eventId: string): Observable<any> {
         return this.http.delete<any>(`${this.apiURLevents}/${eventId}`);

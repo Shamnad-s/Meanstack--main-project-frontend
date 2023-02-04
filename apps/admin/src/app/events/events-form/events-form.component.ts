@@ -25,6 +25,7 @@ export class EventsFormComponent implements OnInit, OnDestroy {
     categories = [];
     imageDisplay: string | ArrayBuffer;
     currentEventId: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     endsubs$: Subject<any> = new Subject();
     constructor(
         private formBuilder: FormBuilder,
@@ -75,6 +76,7 @@ export class EventsFormComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.endsubs$))
             .subscribe(
                 (events: Event) => {
+                    console.log(events);
                     this.messageService.add({
                         severity: 'success',
                         summary: 'Success',
@@ -102,6 +104,8 @@ export class EventsFormComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.endsubs$))
             .subscribe(
                 () => {
+                    console.log('udataed successfully');
+
                     this.messageService.add({
                         severity: 'success',
                         summary: 'Success',
@@ -147,9 +151,6 @@ export class EventsFormComponent implements OnInit, OnDestroy {
             }
         });
     }
-    get eventForm() {
-        return this.form.controls;
-    }
 
     onSubmit() {
         this.isSubmitted = true;
@@ -158,6 +159,8 @@ export class EventsFormComponent implements OnInit, OnDestroy {
         const eventFormData = new FormData();
         Object.keys(this.eventForm).map((key) => {
             eventFormData.append(key, this.eventForm[key].value);
+            console.log(key);
+            console.log(this.eventForm[key].value);
         });
         if (this.editmode) {
             this._updateEvent(eventFormData);
@@ -179,5 +182,8 @@ export class EventsFormComponent implements OnInit, OnDestroy {
             };
             fileReader.readAsDataURL(file);
         }
+    }
+    get eventForm() {
+        return this.form.controls;
     }
 }

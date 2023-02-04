@@ -38,8 +38,13 @@
                             <td>{{ events.dateCreated | date : 'short' }}</td>
 
                             <td>
-                                <p-button styleClass="p-button-danger" icon="pi pi-trash" [ngStyle]="{ 'margin-right': '8px' }"></p-button>
-                                <p-button styleClass="p-button-success p-ml-2" icon="pi pi-pencil"></p-button>
+                                <p-button
+                                    (click)="deleteEvent(events.id)"
+                                    styleClass="p-button-danger"
+                                    icon="pi pi-trash"
+                                    [ngStyle]="{ 'margin-right': '8px' }"
+                                ></p-button>
+                                <p-button (click)="updateEvent(events.id)" styleClass="p-button-success p-ml-2" icon="pi pi-pencil"></p-button>
                             </td>
                         </tr>
                     </ng-template>
