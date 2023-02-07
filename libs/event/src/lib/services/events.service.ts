@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { Event } from '../model/event';
 import { environment } from 'environments/environment';
@@ -12,8 +12,12 @@ export class EventsService {
     apiURLevents = environment.apiUrl + 'event';
     constructor(private http: HttpClient) {}
 
-    getEvents(): Observable<Event[]> {
-        return this.http.get<Event[]>(this.apiURLevents);
+    getEvents(categoriesFilter?: string[]): Observable<Event[]> {
+        let params = new HttpParams();
+        if (categoriesFilter) {
+            params = params.append('categories', categoriesFilter.join(','));
+        }
+        return this.http.get<Event[]>(this.apiURLevents, { params: params });
     }
     createEvent(eventData: FormData): Observable<Event> {
         return this.http.post<Event>(this.apiURLevents, eventData);
@@ -30,5 +34,8 @@ export class EventsService {
     getEventsCount(): Observable<number> {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return this.http.get<number>(`${this.apiURLevents}/get/count`).pipe(map((objectValue: any) => objectValue.productCount));
+    }
+    getFeaturedEvents(count: number): Observable<Event[]> {
+        return this.http.get<Event[]>(`${this.apiURLevents}/get/featured/${count}`);
     }
 }

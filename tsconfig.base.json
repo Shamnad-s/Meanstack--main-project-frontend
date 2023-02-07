@@ -16,6 +16,7 @@
         "baseUrl": ".",
         "paths": {
             "@angular-main-project/event": ["libs/event/src/index.ts"],
+            "@angular-main-project/orders": ["libs/orders/src/index.ts"],
             "@angular-main-project/ui": ["libs/ui/src/index.ts"],
             "@angular-main-project/users": ["libs/users/src/index.ts"],
             "@env/*": ["environments/*"]

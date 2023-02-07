@@ -37,7 +37,7 @@ export class EventsListComponent implements OnInit {
     }
 
     updateEvent(eventid: string) {
-        this.router.navigateByUrl(`products/form/${eventid}`);
+        this.router.navigateByUrl(`events/form/${eventid}`);
     }
     deleteEvent(eventId: string) {
         this.confirmationService.confirm({

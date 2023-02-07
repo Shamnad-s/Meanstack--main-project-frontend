@@ -6,6 +6,8 @@ import { CategoriesListComponent } from './categories/categories-list/categories
 import { EventsFormComponent } from './events/events-form/events-form.component';
 import { EventsListComponent } from './events/events-list/events-list.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { OrderDetailsComponent } from './pages/order-details/order-details.component';
+import { OrderListComponent } from './pages/orders/order-list/order-list.component';
 import { ShellComponent } from './shared/shell/shell.component';
 import { UserFormComponent } from './ussers/user-form/user-form.component';
 import { UserListComponent } from './ussers/user-list/user-list.component';
@@ -55,14 +57,23 @@ const routes: Routes = [
             {
                 path: 'events/form/:id',
                 component: EventsFormComponent
+            },
+
+            {
+                path: 'orders',
+                component: OrderListComponent
+            },
+            {
+                path: 'orders/:id',
+                component: OrderDetailsComponent
             }
         ]
-    },
-    {
-        path: '**',
-        redirectTo: '',
-        pathMatch: 'full'
     }
+    // {
+    //     path: '**',
+    //     redirectTo: '',
+    //     pathMatch: 'full'
+    // }
 ];
 
 @NgModule({

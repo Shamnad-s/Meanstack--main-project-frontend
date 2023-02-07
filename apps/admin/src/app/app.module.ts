@@ -42,6 +42,8 @@ import { CategoriesService } from '@angular-main-project/event';
 import { EventsFormComponent } from './events/events-form/events-form.component';
 import { EventsListComponent } from './events/events-list/events-list.component';
 import { AppRoutingModule } from './app-routing.module';
+import { OrderListComponent } from './pages/orders/order-list/order-list.component';
+import { OrderDetailsComponent } from './pages/order-details/order-details.component';
 
 const UX_MODULE = [
     CardModule,
@@ -74,7 +76,9 @@ const UX_MODULE = [
         UserListComponent,
         UserFormComponent,
         EventsFormComponent,
-        EventsListComponent
+        EventsListComponent,
+        OrderListComponent,
+        OrderDetailsComponent
     ],
     imports: [
         PasswordModule,

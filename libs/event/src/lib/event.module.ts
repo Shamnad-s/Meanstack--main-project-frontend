@@ -12,15 +12,15 @@ import { RouterModule } from '@angular/router';
 // const routes: Routes = [
 //     {
 //       path: 'events',
-//       component: events
+//       component: EventsListComponent
 //     },
 //     {
 //       path: 'category/:categoryid',
-//       component: ProductsListComponent
+//       component: EventsListComponent
 //     },
 //     {
 //       path: 'products/:productid',
-//       component: ProductPageComponent
+//       component: EventsPageComponent
 //     }
 //   ];
 export class EventModule {}
