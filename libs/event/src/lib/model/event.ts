@@ -7,7 +7,7 @@ export class Event {
     image?: string;
     images?: string;
     brand?: string;
-    price?: string;
+    price?: number;
     category?: Category;
     countInStock?: string;
     rating?: string;

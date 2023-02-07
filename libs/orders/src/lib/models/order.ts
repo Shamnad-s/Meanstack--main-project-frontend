@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { OrderItem } from './order-item';
-
+import { User } from '@angular-main-project/users';
 export class Order {
     id?: string;
     orderItems?: OrderItem[];
@@ -12,6 +12,6 @@ export class Order {
     phone?: string;
     status?: number;
     totalPrice?: string;
-    user?: any;
+    user?: User;
     dateOrdered?: string;
 }

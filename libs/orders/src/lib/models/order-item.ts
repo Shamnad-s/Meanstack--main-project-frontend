@@ -1,4 +1,6 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+import { Event } from 'libs/event/src/lib/model/event';
 export class OrderItem {
-    product?: string;
+    event?: Event;
     quantity?: number;
 }

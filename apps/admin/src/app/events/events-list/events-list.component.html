@@ -16,7 +16,7 @@
                     <ng-template pTemplate="header">
                         <tr>
                             <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
-                            <th>Image</th>
+                            <th style="width: 20%">Image</th>
                             <th pSortableColumn="price">Price<p-sortIcon field="price"></p-sortIcon></th>
                             <th>category</th>
                             <th pSortableColumn="countinstock">CountInStock<p-sortIcon field="countinstock"></p-sortIcon></th>
@@ -28,7 +28,7 @@
                     <ng-template pTemplate="body" let-events>
                         <tr>
                             <td>{{ events.name }}</td>
-                            <td><img [src]="events.image" style="width: 100%" alt="rrt" /></td>
+                            <td><img [src]="events.image" style="width: 20%" alt="rrt" /></td>
                             <td>{{ events.price }}</td>
                             <td>{{ events.category.name }}</td>
                             <td>{{ events.countInStock }}</td>

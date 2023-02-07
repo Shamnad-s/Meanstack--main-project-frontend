@@ -38,11 +38,14 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
 
     private _getOrder() {
         this.route.params.subscribe((params) => {
+            console.log(params.id);
             if (params.id) {
                 this.orderService
                     .getOrder(params.id)
                     .pipe(takeUntil(this.endsubs$))
                     .subscribe((order) => {
+                        console.log(order);
+
                         this.order = order;
                         this.selectedStatus = order.status;
                     });
