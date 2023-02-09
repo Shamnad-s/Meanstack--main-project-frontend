@@ -126,19 +126,21 @@ export class EventsFormComponent implements OnInit, OnDestroy {
             .updateEvent(eventFormData, this.currentEventId)
             .pipe(takeUntil(this.endsubs$))
             .subscribe({
-                next: () => {
+                next: (response: Event) => {
+                    console.log(response);
                     this.messageService.add({
                         severity: 'success',
                         summary: 'Success',
                         detail: 'Product is updated!'
                     });
-                    timer(2000)
-                        .toPromise()
-                        .then(() => {
+                    from(timer(2000))
+                        .pipe()
+                        .subscribe(() => {
                             this.location.back();
                         });
                 },
-                error: () => {
+                error: (error) => {
+                    console.log(error);
                     this.messageService.add({
                         severity: 'error',
                         summary: 'Error',
